@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { env } from './env';
+import { env } from "./env";
 import GenerateButton from "./generate-button";
 import ImageDisplay from "./image-display";
 import InferenceSteps from "./inference-steps";
@@ -47,7 +47,7 @@ const App = () => {
   const generateImage = async (prompt, negativePrompt, inferenceSteps) => {
     updateLoading(true);
     const result = await axios.get(
-      `http://${env.REACT_APP_API_DOMAIN}:${env.REACT_APP_API_PORT}/image/?prompt=${prompt}?negative_prompt=${negativePrompt}&num_inference_steps=${inferenceSteps}`
+      `${env.REACT_APP_API_DOMAIN}/image/?prompt=${prompt}?negative_prompt=${negativePrompt}&num_inference_steps=${inferenceSteps}`
     );
     updateImage(result.data);
     updateLoading(false);
@@ -73,8 +73,8 @@ const App = () => {
               This react application leverages the model trained by Stability AI
               and Runway ML to generate images using the Stable Diffusion Deep
               Learning model. The frontend is built with React and Chakra-UI.
-              The backend is built with Python and FastAPI.
-               The model can be found on{" "}
+              The backend is built with Python and FastAPI. The model can be
+              found on{" "}
               <Link
                 href={"https://huggingface.co/runwayml/stable-diffusion-v1-5"}
               >
@@ -112,21 +112,23 @@ const App = () => {
           </Center>
         </Box>
         <Box marginTop={"10px"}>
-          {loading ? (
-            <LoadingIndicator loading={loading} />
-          ) : image ? (
-            <ImageDisplay image={image} />
-          ) : (
-            <Box>
-              <Text align="center">
-                Update prompts and a new Stable Diffusion image will be
-                generated.
-              </Text>
-              <Center>
-                <Image src="/download.png" boxShadow="lg" />
-              </Center>
-            </Box>
-          )}
+          <Center>
+            {loading ? (
+              <LoadingIndicator loading={loading} />
+            ) : image ? (
+              <ImageDisplay image={image} />
+            ) : (
+              <Box>
+                <Text align="center">
+                  Update prompts and a new Stable Diffusion image will be
+                  generated.
+                </Text>
+                <Center>
+                  <Image src="/download.png" boxShadow="lg" />
+                </Center>
+              </Box>
+            )}{" "}
+          </Center>
         </Box>
       </Container>
     </ChakraProvider>
