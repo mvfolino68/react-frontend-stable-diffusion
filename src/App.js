@@ -8,7 +8,7 @@ import {
   Link,
   StackDivider,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -47,7 +47,7 @@ const App = () => {
   const generateImage = async (prompt, negativePrompt, inferenceSteps) => {
     updateLoading(true);
     const result = await axios.get(
-      `${env.REACT_APP_API_DOMAIN}/image/?prompt=${prompt}?negative_prompt=${negativePrompt}&num_inference_steps=${inferenceSteps}`
+      `${env.REACT_APP_API_DOMAIN}/image/?prompt=${prompt}&negative_prompt=${negativePrompt}&num_inference_steps=${inferenceSteps}`
     );
     updateImage(result.data);
     updateLoading(false);
