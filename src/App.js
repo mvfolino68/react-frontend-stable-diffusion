@@ -44,12 +44,26 @@ const App = () => {
     updateInferenceSteps(e);
   };
 
-  const generateImage = async (prompt, negativePrompt, inferenceSteps) => {
+  const generateImage2 = async (prompt, negativePrompt, inferenceSteps) => {
     updateLoading(true);
     const result = await axios.get(
       `${env.REACT_APP_API_DOMAIN}/image/?prompt=${prompt}&negative_prompt=${negativePrompt}&num_inference_steps=${inferenceSteps}`
     );
     updateImage(result.data);
+    updateLoading(false);
+  };
+
+  const generateImage = async (prompt, negativePrompt, inferenceSteps) => {
+    updateLoading(true);
+    const result = await axios.post(
+      `${env.REACT_APP_API_DOMAIN}/api/v1/image-generator/`,
+      {
+        prompt,
+        negative_prompt: negativePrompt,
+        num_inference_steps: inferenceSteps,
+      }
+    );
+    updateImage(result.data.image_base64);
     updateLoading(false);
   };
 
